@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using IdentityServer4.EntityFramework.Options;
+﻿using IdentityServer4.EntityFramework.Options;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Travel__Itenerary2.Server.Configurations.Entities;
 using Travel__Itenerary2.Server.Models;
 using Travel__Itenerary2.Shared.Domain;
+using Travel_Itenerary2.Server.Configurations.Entities;
 
 namespace Travel__Itenerary2.Server.Data
 {
@@ -25,5 +23,17 @@ namespace Travel__Itenerary2.Server.Data
         public DbSet<Package> Package { get; set; }
         public DbSet<Payments> Payments { get; set; }
         public DbSet<Staff> Staff { get; set; }
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            builder.ApplyConfiguration(new HotelSeedConfiguration());
+            builder.ApplyConfiguration(new FlightSeedConfiguration());
+            builder.ApplyConfiguration(new PackageSeedConfiguration());
+            builder.ApplyConfiguration(new StaffSeedConfiguration());
+            builder.ApplyConfiguration(new RoleSeedConfiguration());
+            builder.ApplyConfiguration(new UserRoleSeedConfiguration());
+            builder.ApplyConfiguration(new UserSeedConfiguration());
+        }
     }
 }
