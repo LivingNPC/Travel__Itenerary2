@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.32929.386
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Travel__Itenerary2.Server", "Travel__Itenerary2\Server\Travel__Itenerary2.Server.csproj", "{65AD448B-7AB8-4042-A39C-4248FE39DABA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Travel__Itenerary2.Server", "Travel__Itenerary2\Server\Travel__Itenerary2.Server.csproj", "{65AD448B-7AB8-4042-A39C-4248FE39DABA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Travel__Itenerary2.Client", "Travel__Itenerary2\Client\Travel__Itenerary2.Client.csproj", "{A841F49B-24B7-488C-8CA5-B8FFF3CA5CC1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Travel__Itenerary2.Client", "Travel__Itenerary2\Client\Travel__Itenerary2.Client.csproj", "{A841F49B-24B7-488C-8CA5-B8FFF3CA5CC1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Travel__Itenerary2.Shared", "Travel__Itenerary2\Shared\Travel__Itenerary2.Shared.csproj", "{01566F67-3FBA-45C9-BEB2-CD8725F45371}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Travel__Itenerary2.Shared", "Travel__Itenerary2\Shared\Travel__Itenerary2.Shared.csproj", "{01566F67-3FBA-45C9-BEB2-CD8725F45371}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
