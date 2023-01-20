@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Threading.Tasks;
+using Travel__Itenerary2.Server.IRepository;
 
 namespace Travel__Itenerary2.Server.IRepository
 {

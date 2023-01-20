@@ -6,40 +6,51 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Travel__Itenerary2.Server.Data;
+using Travel__Itenerary2.Server.IRepository;
 using Travel__Itenerary2.Shared.Domain;
 
 namespace Travel__Itenerary2.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+
     public class FlightsController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        //Refractored
+        //private readonly
+        private readonly IUnitOfWork _unitOfWork;
 
-        public FlightsController(ApplicationDbContext context)
+        //public FlightsController(ApplicationDbContext context)
+        public FlightsController(IUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
 
         // GET: api/Flights
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Flights>>> GetFlights()
+        //refractored
+        public async Task<IActionResult> GetFlights()
         {
-            return await _context.Flights.ToListAsync();
+            //return await _context.Flights.ToListAsync();
+            var flights = await _unitOfWork.Flights.GetAll();
+            return Ok(flights);
         }
 
         // GET: api/Flights/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Flights>> GetFlights(int id)
+        //refractored
+        //
+        public async Task<IActionResult> GetFlights(int id)
         {
-            var flights = await _context.Flights.FindAsync(id);
+            var flights = await _unitOfWork.Flights.Get(q => q.Id == id);
 
             if (flights == null)
             {
                 return NotFound();
             }
 
-            return flights;
+            //
+            return Ok(flights);
         }
 
         // PUT: api/Flights/5
@@ -52,15 +63,20 @@ namespace Travel__Itenerary2.Server.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(flights).State = EntityState.Modified;
+            //
+
+            //_context.Entry(flights).State = EntityState.Modified;
+            _unitOfWork.Flights.Update(flights);
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _unitOfWork.Save(HttpContext);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!FlightsExists(id))
+                //
+                //if (!FlightsExists(id))
+                if (!await FlightsExists(id))
                 {
                     return NotFound();
                 }
@@ -78,8 +94,11 @@ namespace Travel__Itenerary2.Server.Controllers
         [HttpPost]
         public async Task<ActionResult<Flights>> PostFlights(Flights flights)
         {
-            _context.Flights.Add(flights);
-            await _context.SaveChangesAsync();
+            //_context.Flights.Add(flights);
+            //await _context.SaveChangesAsync();
+
+            await _unitOfWork.Flights.Insert(flights);
+            await _unitOfWork.Save(HttpContext);
 
             return CreatedAtAction("GetFlights", new { id = flights.Id }, flights);
         }
@@ -88,21 +107,29 @@ namespace Travel__Itenerary2.Server.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteFlights(int id)
         {
-            var flights = await _context.Flights.FindAsync(id);
+            var flights = await _unitOfWork.Flights.Get(q => q.Id == id);
             if (flights == null)
             {
                 return NotFound();
             }
 
-            _context.Flights.Remove(flights);
-            await _context.SaveChangesAsync();
+            //
+            //_context.Flights.Remove(flights);
+            //await _context.SaveChangesAsync();
+            await _unitOfWork.Flights.Delete(id);
+            await _unitOfWork.Save(HttpContext);
 
             return NoContent();
         }
-
-        private bool FlightsExists(int id)
+        //
+        //
+        private async Task<bool> FlightsExists(int id)
         {
-            return _context.Flights.Any(e => e.Id == id);
+            //
+            //return _context.Flights.Any(e => e.Id == id);
+
+            var flights = await _unitOfWork.Flights.Get(q => q.Id == id);
+            return flights != null;
         }
     }
 }

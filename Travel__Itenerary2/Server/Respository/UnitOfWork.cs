@@ -11,18 +11,19 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
+
 namespace Travel__Itenerary2.Server.Repository
 {
     public class UnitOfWork : IUnitOfWork
     {
         private readonly ApplicationDbContext _context;
-        private IGenericRepository<Bookings> _Bookings;
-        private IGenericRepository<Customers> _Customers;
-        private IGenericRepository<Flights> _Flights;
-        private IGenericRepository<Hotels> _Hotels;
-        private IGenericRepository<Package> _Package;
-        private IGenericRepository<Payments> _Payments;
-        private IGenericRepository<Staff> _Staff;
+        private IGenericRepository<Bookings> _bookings;
+        private IGenericRepository<Customers> _customers;
+        private IGenericRepository<Flights> _flights;
+        private IGenericRepository<Hotels> _hotels;
+        private IGenericRepository<Package> _packages;
+        private IGenericRepository<Payments> _payments;
+        private IGenericRepository<Staff> _staffs;
 
         private UserManager<ApplicationUser> _userManager;
 
@@ -33,19 +34,19 @@ namespace Travel__Itenerary2.Server.Repository
         }
 
         public IGenericRepository<Bookings> Bookings
-            => _Bookings ??= new GenericRepository<Bookings>(_context);
-        public IGenericRepository<Customers> Customers 
-            => _Customers ??= new GenericRepository<Customers>(_context);
-        public IGenericRepository<Flights> Colours
-            => _Flights ??= new GenericRepository<Flights>(_context);
+            => _bookings ??= new GenericRepository<Bookings>(_context);
+        public IGenericRepository<Customers> Customers
+            => _customers ??= new GenericRepository<Customers>(_context);
+        public IGenericRepository<Flights> Flights
+            => _flights ??= new GenericRepository<Flights>(_context);
         public IGenericRepository<Hotels> Hotels
-            => _Hotels ??= new GenericRepository<Hotels>(_context);
-        public IGenericRepository<Package> Package
-            => _Package ??= new GenericRepository<Package>(_context);
+            => _hotels ??= new GenericRepository<Hotels>(_context);
+        public IGenericRepository<Package> Packages
+            => _packages ??= new GenericRepository<Package>(_context);
         public IGenericRepository<Payments> Payments
-            => _Payments ??= new GenericRepository<Payments>(_context);
-        public IGenericRepository<Staff> Staff
-           => _Staff ??= new GenericRepository<Staff>(_context);
+            => _payments ??= new GenericRepository<Payments>(_context);
+        public IGenericRepository<Staff> Staffs
+           => _staffs ??= new GenericRepository<Staff>(_context);
 
         public void Dispose()
         {
@@ -62,16 +63,7 @@ namespace Travel__Itenerary2.Server.Repository
                 .Where(q => q.State == EntityState.Modified ||
                     q.State == EntityState.Added);
 
-            foreach (var entry in entries)
-            {
-                ((BaseDomainModel)entry.Entity).DateUpdated = DateTime.Now;
-                ((BaseDomainModel)entry.Entity).UpdatedBy = user;
-                if (entry.State == EntityState.Added)
-                {
-                    ((BaseDomainModel)entry.Entity).DateCreated = DateTime.Now;
-                    ((BaseDomainModel)entry.Entity).CreatedBy = user;
-                }
-            }
+
 
             await _context.SaveChangesAsync();
         }
