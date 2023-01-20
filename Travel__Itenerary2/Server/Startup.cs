@@ -9,7 +9,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Travel__Itenerary2.Server.Data;
+using Travel__Itenerary2.Server.IRepository;
 using Travel__Itenerary2.Server.Models;
+using Travel__Itenerary2.Server.Repository;
 
 namespace Travel__Itenerary2.Server
 {
