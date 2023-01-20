@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Travel__Itenerary2.Server.Data;
 
 namespace Travel__Itenerary2.Server.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230120152738_AddApplicationTablesFinal")]
+    partial class AddApplicationTablesFinal
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -147,22 +149,6 @@ namespace Travel__Itenerary2.Server.Data.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "ad2bcf0c-20db-474f-8407-5a6b159518ba",
-                            ConcurrencyStamp = "6df25073-e6fa-4a81-9653-e55371df939c",
-                            Name = "Administrator",
-                            NormalizedName = "ADMINISTRATOR"
-                        },
-                        new
-                        {
-                            Id = "bd2bcf0c-20db-474f-8407-5a6b159518bb",
-                            ConcurrencyStamp = "15dd0e22-04c7-44e6-83bf-92af4a2d2962",
-                            Name = "User",
-                            NormalizedName = "USER"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -250,13 +236,6 @@ namespace Travel__Itenerary2.Server.Data.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles");
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = "3781efa7-66dc-47f0-860f-e506d04102e4",
-                            RoleId = "ad2bcf0c-20db-474f-8407-5a6b159518ba"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -349,26 +328,6 @@ namespace Travel__Itenerary2.Server.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "3781efa7-66dc-47f0-860f-e506d04102e4",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "db6017bf-32c3-4f5e-87b7-e0c4c86fda52",
-                            Email = "admin@localhost.com",
-                            EmailConfirmed = false,
-                            FirstName = "Admin",
-                            LastName = "User",
-                            LockoutEnabled = false,
-                            NormalizedEmail = "ADMIN@LOCALHOST.COM",
-                            NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDBeLiGCRY4i+X71NQ44hgejarzop04VHycu7+rrG1BEVUlx0+l3/F1PllweNjtNFQ==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "a8e37e99-2cd3-4736-b8eb-d93dd4dfa8e6",
-                            TwoFactorEnabled = false,
-                            UserName = "Admin"
-                        });
                 });
 
             modelBuilder.Entity("Travel__Itenerary2.Shared.Domain.Bookings", b =>
@@ -484,32 +443,6 @@ namespace Travel__Itenerary2.Server.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Flights");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            FlightClass = "First-Class",
-                            FlightDesc = "First class is a premium class of service on an airplane, offering the highest level of comfort, amenities, and service ",
-                            FlightDestination = "Portugal",
-                            FlightName = "Singapore Airlines"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            FlightClass = "Business-Class",
-                            FlightDesc = "Business class is a class of service on an airplane that is nothing short for comfort",
-                            FlightDestination = "Belgium",
-                            FlightName = "Singapore Airlines"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            FlightClass = "Economy-Class",
-                            FlightDesc = "Economy class is a class of service on an airplane that offers the basic standards",
-                            FlightDestination = "Japan",
-                            FlightName = "Singapore Airlines"
-                        });
                 });
 
             modelBuilder.Entity("Travel__Itenerary2.Shared.Domain.Hotels", b =>
@@ -531,29 +464,6 @@ namespace Travel__Itenerary2.Server.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Hotels");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            HotelAddress = "Praça Martim Moniz 2, 1100-341 Lisboa, Portugal",
-                            HotelDesc = "$296/night",
-                            HotelName = "Hotel Mundial"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            HotelAddress = "Rue Bara 101, 1070 Brussels, Belgium",
-                            HotelDesc = "$74/night",
-                            HotelName = "MEININGER Hotel Bruxelles Gare du Midi"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            HotelAddress = "4 Chome-10-30 Takanawa, Minato City, Tokyo 108-6111, Japan",
-                            HotelDesc = "$145/night",
-                            HotelName = "Shinagawa Prince Hotel"
-                        });
                 });
 
             modelBuilder.Entity("Travel__Itenerary2.Shared.Domain.Package", b =>
@@ -575,29 +485,6 @@ namespace Travel__Itenerary2.Server.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Package");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            PackageAmount = 800,
-                            PackageDescription = "Lisbon, also known as Lisboa, is the capital and largest city of Portugal. It is located on the Atlantic coast of the Iberian Peninsula and is known for its historic architecture, lively cultural scene, and picturesque neighborhoods.",
-                            PackageName = "Lisboa_Tour"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            PackageAmount = 890,
-                            PackageDescription = "Brussels is the capital and largest city of Belgium, and serves as the administrative center of the European Union. It is located in the center of the country and is known for its historic architecture, including the Grand Place, a UNESCO World Heritage site.",
-                            PackageName = "Brussel_Tour"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            PackageAmount = 1000,
-                            PackageDescription = "Tokyo is the capital and largest city of Japan. It is located in the eastern part of the main island of Honshu and is considered one of the most populous cities in the world. Tokyo is known for its vibrant culture, cutting-edge technology, and unique blend of modern and traditional elements.",
-                            PackageName = "Tokyo_Tour"
-                        });
                 });
 
             modelBuilder.Entity("Travel__Itenerary2.Shared.Domain.Payments", b =>
@@ -656,35 +543,6 @@ namespace Travel__Itenerary2.Server.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Staff");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Address = 823616,
-                            ContactNumber = 91233219,
-                            EmailAddress = "johndoe123@gmail.com",
-                            Name = "John",
-                            Position = "CEO"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Address = 712321,
-                            ContactNumber = 81233218,
-                            EmailAddress = "maryjane321@gmail.com",
-                            Name = "Mary",
-                            Position = "Customer Service"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Address = 612321,
-                            ContactNumber = 90000009,
-                            EmailAddress = "peterparker0123@gmail.com",
-                            Name = "Peter",
-                            Position = "Payment Handler"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
