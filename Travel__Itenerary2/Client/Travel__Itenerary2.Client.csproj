@@ -21,4 +21,19 @@
     <ServiceWorker Include="wwwroot\service-worker.js" PublishedContent="wwwroot\service-worker.published.js" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Pages\Bookings\" />
+    <Folder Include="Pages\Customers\" />
+    <Folder Include="Pages\Hotels\" />
+    <Folder Include="Pages\Staff\" />
+    <Folder Include="Pages\Payments\" />
+    <Folder Include="Pages\Package\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\Images\brussels.jpg" />
+    <None Include="wwwroot\Images\Lisbon.jpg" />
+    <None Include="wwwroot\Images\Tokyo.jpg" />
+  </ItemGroup>
+
 </Project>
