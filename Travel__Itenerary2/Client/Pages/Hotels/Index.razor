@@ -1,21 +1,21 @@
-﻿@page "/Flights/"
+﻿@page "/Hotels/"
 @inject HttpClient _client
 @inject IJSRuntime js
 @attribute [Authorize]
 
 
-<h3 class="card-title"> Flights </h3>
+<h3 class="card-title"> Hotels </h3>
 <a href="/makes/create" class="btn btn-secondary">
     <span class="oi oi-plus"></span>
-    Book new flights
+    Book new hotels
 </a>
 <br />
 <br />
 <br />
 
-@if (flights == null)
+@if (hotels == null)
 {
-    <div class="alert alert-info">Loading Flights...</div>
+    <div class="alert alert-info">Loading Hotels...</div>
 }
 
 else
@@ -28,18 +28,18 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var flights in flights)
+            @foreach (var hotels in hotels)
             {
                 <tr>
-                    <td>@flights.FlightName</td>
+                    <td>@hotels.HotelName</td>
                     <td>
-                        <a href="/flights/view/@flights.Id" class="btn btn-primary">
+                        <a href="/hotels/view/@hotels.Id" class="btn btn-primary">
                             <span class="oi oi-book"></span>
                         </a>
-                        <a href="/flights/edit/@flights.Id" class="btn btn-warning">
+                        <a href="/hotels/edit/@hotels.Id" class="btn btn-warning">
                             <span class="oi oi-pencil"></span>
                         </a>
-                        <button class="btn btn-danger" @onclick="@(()=>Delete(flights.Id))">
+                        <button class="btn btn-danger" @onclick="@(()=>Delete(hotels.Id))">
                             <span class="oi oi-delete"></span>
                         </button>
                     </td>
@@ -49,22 +49,22 @@ else
     </table>
 }
 @code {
-    private List<Flights> flights;
+    private List<Hotels> hotels;
 
     protected async override Task OnInitializedAsync()
     {
 
-        flights = await _client.GetFromJsonAsync<List<Flights>>($"{Endpoints.FlightsEndpoint}");
+        hotels = await _client.GetFromJsonAsync<List<Hotels>>($"{Endpoints.HotelsEndpoint}");
 
     }
 
-    async Task Delete(int FlightId)
+    async Task Delete(int HotelId)
     {
-        var flight = flights.First(q => q.Id == FlightId);
-        var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {flight.FlightName}?");
+        var hotel = hotels.First(q => q.Id == HotelId);
+        var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {hotel.HotelName}?");
         if (confirm)
         {
-            await _client.DeleteAsync($"{Endpoints.FlightsEndpoint}/{FlightId}");
+            await _client.DeleteAsync($"{Endpoints.HotelsEndpoint}/{HotelId}");
             await OnInitializedAsync();
         }
     }
