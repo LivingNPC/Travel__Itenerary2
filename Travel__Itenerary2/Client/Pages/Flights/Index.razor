@@ -24,26 +24,32 @@ else
         <thead>
             <tr>
                 <th>Name</th>
+                <th>Class</th>
+                <th>Description</th>
+                <th>Destination</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var flights in flights)
             {
-                <tr>
-                    <td>@flights.FlightName</td>
-                    <td>
-                        <a href="/flights/view/@flights.Id" class="btn btn-primary">
-                            <span class="oi oi-book"></span>
-                        </a>
-                        <a href="/flights/edit/@flights.Id" class="btn btn-warning">
-                            <span class="oi oi-pencil"></span>
-                        </a>
-                        <button class="btn btn-danger" @onclick="@(()=>Delete(flights.Id))">
-                            <span class="oi oi-delete"></span>
-                        </button>
-                    </td>
-                </tr>
+            <tr>
+                <td>@flights.FlightName</td>
+                <td>@flights.FlightClass</td>
+                <td>@flights.FlightDesc</td>
+                <td>@flights.FlightDestination</td>
+                <td>
+                    <a href="/flights/view/@flights.Id" class="btn btn-primary">
+                        <span class="oi oi-book"></span>
+                    </a>
+                    <a href="/flights/edit/@flights.Id" class="btn btn-warning">
+                        <span class="oi oi-pencil"></span>
+                    </a>
+                    <button class="btn btn-danger" @onclick="@(()=>Delete(flights.Id))">
+                        <span class="oi oi-delete"></span>
+                    </button>
+                </td>
+            </tr>
             }
         </tbody>
     </table>

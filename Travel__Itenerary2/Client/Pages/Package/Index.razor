@@ -1,4 +1,4 @@
-﻿@page "/Package/"
+﻿@page "/Packages/"
 @inject HttpClient _client
 @inject IJSRuntime js
 @attribute [Authorize]
@@ -7,7 +7,7 @@
 <h3 class="card-title"> Packages </h3>
 <a href="/makes/create" class="btn btn-secondary">
     <span class="oi oi-plus"></span>
-    Book new packages
+    packages
 </a>
 <br />
 <br />
@@ -24,26 +24,30 @@ else
         <thead>
             <tr>
                 <th>Name</th>
+                <th>Amount</th>
+                <th>Description</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var packages in packages)
             {
-                <tr>
-                    <td>@packages.PackageName</td>
-                    <td>
-                        <a href="/packages/view/@packages.Id" class="btn btn-primary">
-                            <span class="oi oi-book"></span>
-                        </a>
-                        <a href="/packages/edit/@packages.Id" class="btn btn-warning">
-                            <span class="oi oi-pencil"></span>
-                        </a>
-                        <button class="btn btn-danger" @onclick="@(()=>Delete(packages.Id))">
-                            <span class="oi oi-delete"></span>
-                        </button>
-                    </td>
-                </tr>
+            <tr>
+                <td>@packages.PackageName</td>
+                <td>@packages.PackageAmount</td>
+                <td>@packages.PackageDescription</td>
+                <td>
+                    <a href="/packages/view/@packages.Id" class="btn btn-primary">
+                        <span class="oi oi-book"></span>
+                    </a>
+                    <a href="/packages/edit/@packages.Id" class="btn btn-warning">
+                        <span class="oi oi-pencil"></span>
+                    </a>
+                    <button class="btn btn-danger" @onclick="@(()=>Delete(packages.Id))">
+                        <span class="oi oi-delete"></span>
+                    </button>
+                </td>
+            </tr>
             }
         </tbody>
     </table>

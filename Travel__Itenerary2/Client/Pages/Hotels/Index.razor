@@ -24,26 +24,30 @@ else
         <thead>
             <tr>
                 <th>Name</th>
+                <th>Description</th>
+                <th>Address</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var hotels in hotels)
             {
-                <tr>
-                    <td>@hotels.HotelName</td>
-                    <td>
-                        <a href="/hotels/view/@hotels.Id" class="btn btn-primary">
-                            <span class="oi oi-book"></span>
-                        </a>
-                        <a href="/hotels/edit/@hotels.Id" class="btn btn-warning">
-                            <span class="oi oi-pencil"></span>
-                        </a>
-                        <button class="btn btn-danger" @onclick="@(()=>Delete(hotels.Id))">
-                            <span class="oi oi-delete"></span>
-                        </button>
-                    </td>
-                </tr>
+            <tr>
+                <td>@hotels.HotelName</td>
+                <td>@hotels.HotelDesc</td>
+                <td>@hotels.HotelAddress</td>
+                <td>
+                    <a href="/hotels/view/@hotels.Id" class="btn btn-primary">
+                        <span class="oi oi-book"></span>
+                    </a>
+                    <a href="/hotels/edit/@hotels.Id" class="btn btn-warning">
+                        <span class="oi oi-pencil"></span>
+                    </a>
+                    <button class="btn btn-danger" @onclick="@(()=>Delete(hotels.Id))">
+                        <span class="oi oi-delete"></span>
+                    </button>
+                </td>
+            </tr>
             }
         </tbody>
     </table>
