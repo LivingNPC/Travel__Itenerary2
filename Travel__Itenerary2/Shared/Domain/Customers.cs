@@ -8,7 +8,7 @@ namespace Travel__Itenerary2.Shared.Domain
 {
     public class Customers : BaseDomainModel
     {
-        public int NRIC { get; set; }
+        public string NRIC { get; set; }
         public string Address { get; set; }
         public int ContactNumber { get; set; }
         public string EmailAddress { get; set; }
