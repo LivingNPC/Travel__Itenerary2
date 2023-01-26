@@ -1,1 +1,29 @@
-﻿
+﻿@page "/Flights/"
+@inject HttpClient _client
+@inject IJSRuntime js
+@attribute [Authorize]
+
+<h3 class="card-title">Flights</h3>
+<br />
+
+@code {
+    private List<Flights> flights;
+
+    protected async override Task OnInitializedAsync()
+    {
+
+        flights = await _client.GetFromJsonAsync<List<Flights>>($"{Endpoints.FlightsEndpoint}");
+
+    }
+
+    async Task Delete(int FlightId)
+    {
+        var flight = Flights.First(q => q.Id == FlightId);
+        var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {Flights.FlightName}?");
+        if (confirm)
+        {
+            await _client.DeleteAsync($"{Endpoints.FlightsEndpoint}/{FlightId}");
+            await OnInitializedAsync();
+        }
+    }
+}
