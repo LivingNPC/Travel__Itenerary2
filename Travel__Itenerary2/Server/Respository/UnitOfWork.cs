@@ -33,17 +33,17 @@ namespace Travel__Itenerary2.Server.Repository
             _userManager = userManager;
         }
 
-        public IGenericRepository<Bookings> Bookings
+        public IGenericRepository<Bookings> Booking
             => _bookings ??= new GenericRepository<Bookings>(_context);
-        public IGenericRepository<Customers> Customers
+        public IGenericRepository<Customers> Customer
             => _customers ??= new GenericRepository<Customers>(_context);
-        public IGenericRepository<Flights> Flights
+        public IGenericRepository<Flights> Flight
             => _flights ??= new GenericRepository<Flights>(_context);
-        public IGenericRepository<Hotels> Hotels
+        public IGenericRepository<Hotels> Hotel
             => _hotels ??= new GenericRepository<Hotels>(_context);
         public IGenericRepository<Package> Packages
             => _packages ??= new GenericRepository<Package>(_context);
-        public IGenericRepository<Payments> Payments
+        public IGenericRepository<Payments> Payment
             => _payments ??= new GenericRepository<Payments>(_context);
         public IGenericRepository<Staff> Staffs
            => _staffs ??= new GenericRepository<Staff>(_context);

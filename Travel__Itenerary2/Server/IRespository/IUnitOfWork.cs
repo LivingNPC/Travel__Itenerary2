@@ -9,12 +9,12 @@ namespace Travel__Itenerary2.Server.IRepository
     public interface IUnitOfWork : IDisposable
     {
         Task Save(HttpContext httpContext);
-        IGenericRepository<Bookings> Bookings { get; }
-        IGenericRepository<Customers> Customers { get; }
-        IGenericRepository<Flights> Flights { get; }
-        IGenericRepository<Hotels> Hotels { get; }
+        IGenericRepository<Bookings> Booking { get; }
+        IGenericRepository<Customers> Customer { get; }
+        IGenericRepository<Flights> Flight { get; }
+        IGenericRepository<Hotels> Hotel { get; }
         IGenericRepository<Package> Packages { get; }
-        IGenericRepository<Payments> Payments { get; }
+        IGenericRepository<Payments> Payment { get; }
         IGenericRepository<Staff> Staffs { get; }
     }
 }

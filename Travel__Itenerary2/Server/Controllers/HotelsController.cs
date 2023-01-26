@@ -33,7 +33,7 @@ namespace Travel__Itenerary2.Server.Controllers
         public async Task<IActionResult> GetHotels()
         {
             //return await _context.Hotels.ToListAsync();
-            var Hotels = await _unitOfWork.Hotels.GetAll();
+            var Hotels = await _unitOfWork.Hotel.GetAll();
             return Ok(Hotels);
         }
 
@@ -43,7 +43,7 @@ namespace Travel__Itenerary2.Server.Controllers
         //
         public async Task<IActionResult> GetHotels(int id)
         {
-            var Hotels = await _unitOfWork.Hotels.Get(q => q.Id == id);
+            var Hotels = await _unitOfWork.Hotel.Get(q => q.Id == id);
 
             if (Hotels == null)
             {
@@ -67,7 +67,7 @@ namespace Travel__Itenerary2.Server.Controllers
             //
 
             //_context.Entry(Hotels).State = EntityState.Modified;
-            _unitOfWork.Hotels.Update(Hotels);
+            _unitOfWork.Hotel.Update(Hotels);
 
             try
             {
@@ -98,7 +98,7 @@ namespace Travel__Itenerary2.Server.Controllers
             //_context.Hotels.Add(Hotels);
             //await _context.SaveChangesAsync();
 
-            await _unitOfWork.Hotels.Insert(Hotels);
+            await _unitOfWork.Hotel.Insert(Hotels);
             await _unitOfWork.Save(HttpContext);
 
             return CreatedAtAction("GetHotels", new { id = Hotels.Id }, Hotels);
@@ -108,7 +108,7 @@ namespace Travel__Itenerary2.Server.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteHotels(int id)
         {
-            var Hotels = await _unitOfWork.Hotels.Get(q => q.Id == id);
+            var Hotels = await _unitOfWork.Hotel.Get(q => q.Id == id);
             if (Hotels == null)
             {
                 return NotFound();
@@ -117,7 +117,7 @@ namespace Travel__Itenerary2.Server.Controllers
             //
             //_context.Hotels.Remove(Hotels);
             //await _context.SaveChangesAsync();
-            await _unitOfWork.Hotels.Delete(id);
+            await _unitOfWork.Hotel.Delete(id);
             await _unitOfWork.Save(HttpContext);
 
             return NoContent();
@@ -129,7 +129,7 @@ namespace Travel__Itenerary2.Server.Controllers
             //
             //return _context.Hotels.Any(e => e.Id == id);
 
-            var Hotels = await _unitOfWork.Hotels.Get(q => q.Id == id);
+            var Hotels = await _unitOfWork.Hotel.Get(q => q.Id == id);
             return Hotels != null;
         }
     }

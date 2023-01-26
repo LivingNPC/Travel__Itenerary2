@@ -32,7 +32,7 @@ namespace Travel__Itenerary2.Server.Controllers
         public async Task<IActionResult> GetPayments()
         {
             //return await _context.Payments.ToListAsync();
-            var Payments = await _unitOfWork.Payments.GetAll();
+            var Payments = await _unitOfWork.Payment.GetAll();
             return Ok(Payments);
         }
 
@@ -42,7 +42,7 @@ namespace Travel__Itenerary2.Server.Controllers
         //
         public async Task<IActionResult> GetPayments(int id)
         {
-            var Payments = await _unitOfWork.Payments.Get(q => q.Id == id);
+            var Payments = await _unitOfWork.Payment.Get(q => q.Id == id);
 
             if (Payments == null)
             {
@@ -66,7 +66,7 @@ namespace Travel__Itenerary2.Server.Controllers
             //
 
             //_context.Entry(Payments).State = EntityState.Modified;
-            _unitOfWork.Payments.Update(Payments);
+            _unitOfWork.Payment.Update(Payments);
 
             try
             {
@@ -97,7 +97,7 @@ namespace Travel__Itenerary2.Server.Controllers
             //_context.Payments.Add(Payments);
             //await _context.SaveChangesAsync();
 
-            await _unitOfWork.Payments.Insert(Payments);
+            await _unitOfWork.Payment.Insert(Payments);
             await _unitOfWork.Save(HttpContext);
 
             return CreatedAtAction("GetPayments", new { id = Payments.Id }, Payments);
@@ -107,7 +107,7 @@ namespace Travel__Itenerary2.Server.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePayments(int id)
         {
-            var Payments = await _unitOfWork.Payments.Get(q => q.Id == id);
+            var Payments = await _unitOfWork.Payment.Get(q => q.Id == id);
             if (Payments == null)
             {
                 return NotFound();
@@ -116,7 +116,7 @@ namespace Travel__Itenerary2.Server.Controllers
             //
             //_context.Payments.Remove(Payments);
             //await _context.SaveChangesAsync();
-            await _unitOfWork.Payments.Delete(id);
+            await _unitOfWork.Payment.Delete(id);
             await _unitOfWork.Save(HttpContext);
 
             return NoContent();
@@ -128,7 +128,7 @@ namespace Travel__Itenerary2.Server.Controllers
             //
             //return _context.Payments.Any(e => e.Id == id);
 
-            var Payments = await _unitOfWork.Payments.Get(q => q.Id == id);
+            var Payments = await _unitOfWork.Payment.Get(q => q.Id == id);
             return Payments != null;
         }
     }

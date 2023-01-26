@@ -32,7 +32,7 @@ namespace Travel__Itenerary2.Server.Controllers
         public async Task<IActionResult> GetFlights()
         {
             //return await _context.Flights.ToListAsync();
-            var flights = await _unitOfWork.Flights.GetAll();
+            var flights = await _unitOfWork.Flight.GetAll();
             return Ok(flights);
         }
 
@@ -42,7 +42,7 @@ namespace Travel__Itenerary2.Server.Controllers
         //
         public async Task<IActionResult> GetFlights(int id)
         {
-            var flights = await _unitOfWork.Flights.Get(q => q.Id == id);
+            var flights = await _unitOfWork.Flight.Get(q => q.Id == id);
 
             if (flights == null)
             {
@@ -66,7 +66,7 @@ namespace Travel__Itenerary2.Server.Controllers
             //
 
             //_context.Entry(flights).State = EntityState.Modified;
-            _unitOfWork.Flights.Update(flights);
+            _unitOfWork.Flight.Update(flights);
 
             try
             {
@@ -97,7 +97,7 @@ namespace Travel__Itenerary2.Server.Controllers
             //_context.Flights.Add(flights);
             //await _context.SaveChangesAsync();
 
-            await _unitOfWork.Flights.Insert(flights);
+            await _unitOfWork.Flight.Insert(flights);
             await _unitOfWork.Save(HttpContext);
 
             return CreatedAtAction("GetFlights", new { id = flights.Id }, flights);
@@ -107,7 +107,7 @@ namespace Travel__Itenerary2.Server.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteFlights(int id)
         {
-            var flights = await _unitOfWork.Flights.Get(q => q.Id == id);
+            var flights = await _unitOfWork.Flight.Get(q => q.Id == id);
             if (flights == null)
             {
                 return NotFound();
@@ -116,7 +116,7 @@ namespace Travel__Itenerary2.Server.Controllers
             //
             //_context.Flights.Remove(flights);
             //await _context.SaveChangesAsync();
-            await _unitOfWork.Flights.Delete(id);
+            await _unitOfWork.Flight.Delete(id);
             await _unitOfWork.Save(HttpContext);
 
             return NoContent();
@@ -128,7 +128,7 @@ namespace Travel__Itenerary2.Server.Controllers
             //
             //return _context.Flights.Any(e => e.Id == id);
 
-            var flights = await _unitOfWork.Flights.Get(q => q.Id == id);
+            var flights = await _unitOfWork.Flight.Get(q => q.Id == id);
             return flights != null;
         }
     }
