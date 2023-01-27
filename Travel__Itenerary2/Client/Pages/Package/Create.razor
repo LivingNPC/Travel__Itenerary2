@@ -1,4 +1,4 @@
-﻿@page "/Packages/create/"
+﻿@page "/Packages/Create/"
 @inject HttpClient _client
 @inject NavigationManager _navManager
 
@@ -6,37 +6,7 @@
 <hr />
 <br />
 
-<EditForm Model="@package" OnValidSubmit="CreatePackage">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
-
-    <div class="form-group">
-        <label>PackageName: </label>
-        <div>
-            <InputText @bind-Value="@package.PackageName" class="form-control" />
-            <ValidationMessage For="@(() => package.PackageName)" />
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label>Address: </label>
-        <div>
-            <InputNumber @bind-Value="@package.PackageAmount" class="form-control" />
-            <ValidationMessage For="@(() => package.PackageAmount)" />
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label>PackageDescription: </label>
-        <div>
-            <InputNumber @bind-Value="@package.PackageDescription" class="form-control" />
-            <ValidationMessage For="@(() => package.PackageDescription)" />
-        </div>
-    </div>
-    <button type="submit" class="btn btn-success btn-block">
-        Create Package
-    </button>
-</EditForm>
+<FormComponent ButtonText="Create Packages" package="package" OnValidSubmit="@CreatePackage" />
 
 @code { Package package = new Package();
 
