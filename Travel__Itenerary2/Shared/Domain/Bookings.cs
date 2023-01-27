@@ -26,5 +26,6 @@ namespace Travel__Itenerary2.Shared.Domain
         public virtual Flights Flights { get; set; }
         public int StaffId { get; set; }
         public virtual Staff Staff { get; set; }
+
     }
 }

@@ -1,0 +1,82 @@
+﻿@*@page "/Payments/create/"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3 class="card-title">Create New Payments</h3>
+<hr />
+<br />
+
+<EditForm Model="@payment" OnValidSubmit="CreatePayment">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label>PayDescription: </label>
+        <div>
+            <InputText @bind-Value="@payment.PayDescription" class="form-control" />
+            <ValidationMessage For="@(() => payment.PayDescription)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>PayDate: </label>
+        <div>
+            <InputDate @bind-Value="@payment.PayDate" class="form-control" />
+            <ValidationMessage For="@(() => payment.PayDate)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Bookings: </label>
+        <div>
+            <InputSelect @bind-Value="payment.BookingId" class="form-control">
+                <option value="">-- Select Bookings --</option>
+                @if (Bookings != null)
+                {
+                    foreach (var booking in Bookings)
+                    {
+                        <option value="@booking.Id">@booking.Make.Name @booking.Model.Name - @booking.LicensePlateNumber </option>}
+                    }
+            </InputSelect>
+            <ValidationMessage For="@(() => payment.BookingId)" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Staff: </label>
+        <div>
+            <InputSelect @bind-Value="payment.StaffId" class="form-control">
+                <option value="">-- Select Staff --</option>
+                @if (Staff != null)
+                {
+                    foreach (var staff in Staff)
+                    {
+                        <option value="@staff.Id">@staff.Make.Name @staff.Model.Name - @booking.LicensePlateNumber </option>}
+                    }
+            </InputSelect>
+            <ValidationMessage For="@(() => payment.StaffId)" />
+        </div>
+    </div>
+    <button type="submit" class="btn btn-success btn-block">
+        Create Payments
+    </button>
+</EditForm>
+
+@code { Payments payment = new Payments();
+
+    private IList<Bookings> Bookings;
+    private IList<Staff> Customers;
+
+    protected async override Task OnInitializedAsync()
+    {
+       Bookings = await _client.GetFromJsonAsync<List<Bookings>>($"{Endpoints.BookingsEndpoint}");
+       Staff = await _client.GetFromJsonAsync<List<Staff>>($"{Endpoints.StaffEndpoint}");
+        //payment.DateOut = DateTime.Now;
+    }
+
+    private async Task CreateBooking()
+    {
+        await _client.PostAsJsonAsync(Endpoints.PaymentsEndpoint, payment);
+        _navManager.NavigateTo("/Payments/");
+    } }
+
+*@

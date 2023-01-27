@@ -1,0 +1,47 @@
+﻿@page "/Packages/create/"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3 class="card-title">Create New Package</h3>
+<hr />
+<br />
+
+<EditForm Model="@package" OnValidSubmit="CreatePackage">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label>PackageName: </label>
+        <div>
+            <InputText @bind-Value="@package.PackageName" class="form-control" />
+            <ValidationMessage For="@(() => package.PackageName)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Address: </label>
+        <div>
+            <InputNumber @bind-Value="@package.PackageAmount" class="form-control" />
+            <ValidationMessage For="@(() => package.PackageAmount)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>PackageDescription: </label>
+        <div>
+            <InputNumber @bind-Value="@package.PackageDescription" class="form-control" />
+            <ValidationMessage For="@(() => package.PackageDescription)" />
+        </div>
+    </div>
+    <button type="submit" class="btn btn-success btn-block">
+        Create Package
+    </button>
+</EditForm>
+
+@code { Package package = new Package();
+
+            private async Task CreatePackage()
+            {
+                await _client.PostAsJsonAsync(Endpoints.CustomersEndpoint, package);
+                _navManager.NavigateTo("/Package/");
+            } }

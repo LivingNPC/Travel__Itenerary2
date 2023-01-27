@@ -1,0 +1,74 @@
+﻿@page "/Payments/"
+@inject HttpClient _client
+@inject IJSRuntime js
+@attribute [Authorize]
+
+
+<h3 class="card-title"> Payments </h3>
+<a href="/Payments/Create" class="btn btn-secondary">
+    <span class="oi oi-plus"></span>
+    new Payments
+</a>
+<br />
+<br />
+<br />
+
+@if (Payments == null)
+{
+    <div class="alert alert-info">Loading Payments...</div>
+}
+
+else
+{
+    <table class="table table-responsive">
+        <thead>
+            <tr>
+                <th>Payment Description</th>
+                <th>Payment Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var Payments in Payments)
+            {
+                <tr>
+                    <td>@Payments.PayDescription</td>
+                    <td>@Payments.PayDate</td>
+                    <td>
+                        <a href="/Payments/view/@Payments.Id" class="btn btn-primary">
+                            <span class="oi oi-book"></span>
+                        </a>
+                        <a href="/Payments/edit/@Payments.Id" class="btn btn-warning">
+                            <span class="oi oi-pencil"></span>
+                        </a>
+                        <button class="btn btn-danger" @onclick="@(()=>Delete(Payments.Id))">
+                            <span class="oi oi-delete"></span>
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@code {
+    private List<Payments> Payments;
+
+    protected async override Task OnInitializedAsync()
+    {
+
+        Payments = await _client.GetFromJsonAsync<List<Payments>>($"{Endpoints.PaymentsEndpoint}");
+
+    }
+
+    async Task Delete(int PaymentId)
+    {
+        var payment = Payments.First(q => q.Id == PaymentId);
+        var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {payment.PayDescription}?");
+        if (confirm)
+        {
+            await _client.DeleteAsync($"{Endpoints.PaymentsEndpoint}/{PaymentId}");
+            await OnInitializedAsync();
+        }
+    }
+}
+

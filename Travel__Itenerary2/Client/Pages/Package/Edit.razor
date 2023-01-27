@@ -1,0 +1,21 @@
+﻿@page "/Package/edit/{id:int}"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3>Edit Package</h3>
+
+<FormComponent ButtonText="Update" OnValidSubmit="EditPackage" package="package" />
+
+@code { [Parameter] public int id { get; set; }
+    Package package = new Package();
+
+    protected async override Task OnParametersSetAsync()
+    {
+        package = await _client.GetFromJsonAsync<Package>($"{Endpoints.PackageEndpoint}/{id}");
+    }
+
+    async Task EditPackage()
+    {
+        await _client.PutAsJsonAsync($"{Endpoints.PackageEndpoint}/{id}", package);
+        _navManager.NavigateTo("/Packages/");
+    } }

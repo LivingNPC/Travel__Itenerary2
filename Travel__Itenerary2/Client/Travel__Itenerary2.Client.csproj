@@ -22,10 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Pages\Payments\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="wwwroot\Images\brussels.jpg" />
     <None Include="wwwroot\Images\Lisbon.jpg" />
     <None Include="wwwroot\Images\Tokyo.jpg" />

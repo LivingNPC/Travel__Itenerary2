@@ -5,7 +5,7 @@
 
 
 <h3 class="card-title"> Flights </h3>
-<a href="/makes/create" class="btn btn-secondary">
+<a href="/Flights/Create" class="btn btn-secondary">
     <span class="oi oi-plus"></span>
     new flights
 </a>
@@ -33,23 +33,23 @@ else
         <tbody>
             @foreach (var flights in flights)
             {
-            <tr>
-                <td>@flights.FlightName</td>
-                <td>@flights.FlightClass</td>
-                <td>@flights.FlightDesc</td>
-                <td>@flights.FlightDestination</td>
-                <td>
-                    <a href="/flights/view/@flights.Id" class="btn btn-primary">
-                        <span class="oi oi-book"></span>
-                    </a>
-                    <a href="/flights/edit/@flights.Id" class="btn btn-warning">
-                        <span class="oi oi-pencil"></span>
-                    </a>
-                    <button class="btn btn-danger" @onclick="@(()=>Delete(flights.Id))">
-                        <span class="oi oi-delete"></span>
-                    </button>
-                </td>
-            </tr>
+                <tr>
+                    <td>@flights.FlightName</td>
+                    <td>@flights.FlightClass</td>
+                    <td>@flights.FlightDesc</td>
+                    <td>@flights.FlightDestination</td>
+                    <td>
+                        <a href="/flights/view/@flights.Id" class="btn btn-primary">
+                            <span class="oi oi-book"></span>
+                        </a>
+                        <a href="/flights/edit/@flights.Id" class="btn btn-warning">
+                            <span class="oi oi-pencil"></span>
+                        </a>
+                        <button class="btn btn-danger" @onclick="@(()=>Delete(flights.Id))">
+                            <span class="oi oi-delete"></span>
+                        </button>
+                    </td>
+                </tr>
             }
         </tbody>
     </table>

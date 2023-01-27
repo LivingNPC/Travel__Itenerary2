@@ -3,18 +3,17 @@
 @inject IJSRuntime js
 @attribute [Authorize]
 
-<h3 class="card-title"> Customers </h3>
-<br />
 
-<a href="/Customers/create/" class="btn btn-secondary">
+<h3 class="card-title"> Customers </h3>
+<a href="/Customers/Create" class="btn btn-secondary">
     <span class="oi oi-plus"></span>
-    Create New Customer
+    new Customers
 </a>
+<br />
 <br />
 <br />
 
 @if (Customers == null)
-
 {
     <div class="alert alert-info">Loading Customers...</div>
 }
@@ -29,26 +28,26 @@ else
                 <th>ContactNumber</th>
                 <th>EmailAddress</th>
                 <th>Actions</th>
+
             </tr>
         </thead>
         <tbody>
-            @foreach (var customer in Customers)
+            @foreach (var Customers in Customers)
             {
                 <tr>
-                    <td>@customer.NRIC</td>
-                    <td>@customer.Address</td>
-                    <td>@customer.ContactNumber</td>
-                    <td>@customer.EmailAddress</td>
+                    <td>@Customers.NRIC</td>
+                    <td>@Customers.Address</td>
+                    <td>@Customers.ContactNumber</td>
+                    <td>@Customers.EmailAddress</td>
+
                     <td>
-                        <a href="/customers/view/@customer.Id" class="btn btn-primary">
+                        <a href="/Customers/view/@Customers.Id" class="btn btn-primary">
                             <span class="oi oi-book"></span>
                         </a>
-
-                        <a href="/customers/edit/@customer.Id" class="btn btn-warning">
+                        <a href="/Customers/edit/@Customers.Id" class="btn btn-warning">
                             <span class="oi oi-pencil"></span>
                         </a>
-
-                        <button class="btn btn-danger" @onclick="@(()=>Delete(customer.Id))">
+                        <button class="btn btn-danger" @onclick="@(()=>Delete(Customers.Id))">
                             <span class="oi oi-delete"></span>
                         </button>
                     </td>
@@ -57,21 +56,23 @@ else
         </tbody>
     </table>
 }
-
 @code {
     private List<Customers> Customers;
+
     protected async override Task OnInitializedAsync()
     {
+
         Customers = await _client.GetFromJsonAsync<List<Customers>>($"{Endpoints.CustomersEndpoint}");
+
     }
 
-    async Task Delete(int customerId)
+    async Task Delete(int CustomerId)
     {
-        var customer = Customers.First(q => q.Id == customerId);
+        var customer = Customers.First(q => q.Id == CustomerId);
         var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {customer.NRIC}?");
         if (confirm)
         {
-            await _client.DeleteAsync($"{Endpoints.CustomersEndpoint}/{customerId}");
+            await _client.DeleteAsync($"{Endpoints.CustomersEndpoint}/{CustomerId}");
             await OnInitializedAsync();
         }
     }

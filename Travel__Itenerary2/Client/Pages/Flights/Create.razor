@@ -1,0 +1,56 @@
+﻿@page "/Flights/create/"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3 class="card-title">Create New Flight</h3>
+<hr />
+<br />
+
+<EditForm Model="@flight" OnValidSubmit="CreateFlight">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label>FlightName: </label>
+        <div>
+            <InputText @bind-Value="@flight.FlightName" class="form-control" />
+            <ValidationMessage For="@(() => flight.FlightName)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>FlightClass: </label>
+        <div>
+            <InputText @bind-Value="@flight.FlightClass" class="form-control" />
+            <ValidationMessage For="@(() => flight.FlightClass)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>FlightDesc: </label>
+        <div>
+            <InputNumber @bind-Value="@flight.FlightDesc" class="form-control" />
+            <ValidationMessage For="@(() => flight.FlightDesc)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>FlightDestination: </label>
+        <div>
+            <InputText @bind-Value="@flight.FlightDestination" class="form-control" />
+            <ValidationMessage For="@(() => flight.FlightDestination)" />
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-success btn-block">
+        Create Flights 
+    </button>
+</EditForm>
+
+@code { Flights flight = new Flights();
+
+            private async Task CreateFlight()
+            {
+                await _client.PostAsJsonAsync(Endpoints.FlightsEndpoint, flight);
+                _navManager.NavigateTo("/Flights/");
+            } }
