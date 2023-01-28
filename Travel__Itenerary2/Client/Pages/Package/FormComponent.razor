@@ -11,7 +11,7 @@
     </div>
 
     <div class="form-group">
-        <label>Address: </label>
+        <label>PackageAmount: </label>
         <div>
             <InputNumber @bind-Value="@package.PackageAmount" class="form-control" />
             <ValidationMessage For="@(() => package.PackageAmount)" />
@@ -19,9 +19,9 @@
     </div>
 
     <div class="form-group">
-        <label>Contact Number: </label>
+        <label>PackageDescription: </label>
         <div>
-            <InputNumber @bind-Value="@package.PackageDescription" class="form-control" />
+            <InputText @bind-Value="@package.PackageDescription" class="form-control" />
             <ValidationMessage For="@(() => package.PackageDescription)" />
         </div>
     </div>

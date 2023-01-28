@@ -1,0 +1,145 @@
+﻿@inject HttpClient _client
+
+<EditForm Model="@booking" OnValidSubmit="OnValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label>Package: </label>
+        <div>
+            <InputSelect @bind-Value="booking.PackageId" class="form-control">
+                <option value="">-- Select Package --</option>
+                @if (Packages != null)
+                {
+                    foreach (var package in Packages)
+                    {
+<option value="@package.Id">@package.PackageName </option>}
+}
+            </InputSelect>
+            <ValidationMessage For="@(() => booking.PackageId)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Customer: </label>
+        <div>
+            <InputSelect @bind-Value="booking.CustId" class="form-control">
+                <option value="">-- Select Customer --</option>
+                @if (Customers != null)
+                {
+                    foreach (var customer in Customers)
+                    {
+<option value="@customer.Id">@customer.NRIC  </option>}
+}
+            </InputSelect>
+            <ValidationMessage For="@(() => booking.CustId)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Hotel: </label>
+        <div>
+            <InputSelect @bind-Value="booking.HotelId" class="form-control">
+                <option value="">-- Select Hotel --</option>
+                @if (Hotels != null)
+                {
+                    foreach (var hotel in Hotels)
+                    {
+<option value="@hotel.Id">@hotel.HotelName  </option>}
+}
+            </InputSelect>
+            <ValidationMessage For="@(() => booking.HotelId)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Flight: </label>
+        <div>
+            <InputSelect @bind-Value="booking.FlightId" class="form-control">
+                <option value="">-- Select Flight --</option>
+                @if (Flights != null)
+                {
+                    foreach (var flight in Flights)
+                    {
+<option value="@flight.Id">@flight.FlightName  </option>}
+}
+            </InputSelect>
+            <ValidationMessage For="@(() => booking.FlightId)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Staff: </label>
+        <div>
+            <InputSelect @bind-Value="booking.StaffId" class="form-control">
+                <option value="">-- Select Staff --</option>
+                @if (Staffs != null)
+                {
+                    foreach (var staff in Staffs)
+                    {
+<option value="@staff.Id">@staff.Name</option>}
+}
+            </InputSelect>
+            <ValidationMessage For="@(() => booking.StaffId)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Date Time: </label>
+        <div>
+            <InputDate @bind-Value="@booking.DateTime" class="form-control" />
+            <ValidationMessage For="@(() => booking.DateTime)" />
+        </div>
+    </div>
+
+    @if (booking.Id > 0)
+    {
+<div class="form-group">
+    <label>FlightDepartDate : </label>
+    <div>
+        <InputDate @bind-Value="@booking.FlightDepartDate" class="form-control" />
+        <ValidationMessage For="@(() => booking.FlightDepartDate)" />
+    </div>
+</div>
+<div class="form-group">
+     <label>PackageStart : </label>
+     <div>
+        <InputDate @bind-Value="@booking.PackageStart" class="form-control" />
+        <ValidationMessage For="@(() => booking.PackageStart)" />
+     </div>
+</div>
+<div class="form-group">
+    <label>HotelCheckIn : </label>
+    <div>
+        <InputDate @bind-Value="@booking.HotelCheckIn" class="form-control" />
+        <ValidationMessage For="@(() => booking.HotelCheckIn)" />
+    </div>
+</div>
+
+    
+    }
+
+    <button type="submit" class="btn btn-success btn-block">
+        Create Booking
+    </button>
+</EditForm>
+
+@code { [Parameter] public Bookings booking { get; set; }
+    [Parameter] public string ButtonText { get; set; } = "Save";
+    [Parameter] public EventCallback OnValidSubmit { get; set; }
+
+    private IList<Package> Packages;
+    private IList<Customers> Customers;
+    private IList<Hotels> Hotels;
+    private IList<Flights> Flights;
+    private IList<Staff> Staffs;
+
+    protected async override Task OnInitializedAsync()
+    {
+        Packages = await _client.GetFromJsonAsync<List<Package>>($"{Endpoints.PackageEndpoint}");
+        Customers = await _client.GetFromJsonAsync<List<Customers>>($"{Endpoints.CustomersEndpoint}");
+        Hotels = await _client.GetFromJsonAsync<List<Hotels>>($"{Endpoints.HotelsEndpoint}");
+        Flights = await _client.GetFromJsonAsync<List<Flights>>($"{Endpoints.FlightsEndpoint}");
+        Staffs = await _client.GetFromJsonAsync<List<Staff>>($"{Endpoints.StaffEndpoint}");
+        //booking.DateOut = DateTime.Now;
+    } }

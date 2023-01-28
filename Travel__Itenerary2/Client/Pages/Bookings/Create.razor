@@ -1,0 +1,34 @@
+﻿@page "/Bookings/Create/"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3 class="card-title">Create New Booking</h3>
+<hr />
+<br />
+
+<FormComponent ButtonText="Create Bookings" booking="booking" OnValidSubmit="@CreateBooking" />
+
+@code { Bookings booking = new Bookings();
+
+    private IList<Package> Packages;
+    private IList<Customers> Customers;
+    private IList<Hotels> Hotels;
+    private IList<Flights> Flights;
+    private IList<Staff> Staffs;
+
+    protected async override Task OnInitializedAsync()
+    {
+        Packages = await _client.GetFromJsonAsync<List<Package>>($"{Endpoints.PackageEndpoint}");
+        Customers = await _client.GetFromJsonAsync<List<Customers>>($"{Endpoints.CustomersEndpoint}");
+        Hotels = await _client.GetFromJsonAsync<List<Hotels>>($"{Endpoints.HotelsEndpoint}");
+        Flights = await _client.GetFromJsonAsync<List<Flights>>($"{Endpoints.FlightsEndpoint}");
+        Staffs = await _client.GetFromJsonAsync<List<Staff>>($"{Endpoints.StaffEndpoint}");
+        //booking.DateOut = DateTime.Now;
+    }
+
+    private async Task CreateBooking()
+    {
+        await _client.PostAsJsonAsync(Endpoints.BookingsEndpoint, booking);
+        _navManager.NavigateTo("/Bookings/");
+    } }
+

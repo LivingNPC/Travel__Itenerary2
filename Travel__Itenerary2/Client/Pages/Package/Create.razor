@@ -8,10 +8,11 @@
 
 <FormComponent ButtonText="Create Packages" package="package" OnValidSubmit="@CreatePackage" />
 
+
 @code { Package package = new Package();
 
-            private async Task CreatePackage()
-            {
-                await _client.PostAsJsonAsync(Endpoints.CustomersEndpoint, package);
-                _navManager.NavigateTo("/Package/");
-            } }
+    private async Task CreatePackage()
+    {
+        await _client.PostAsJsonAsync(Endpoints.PackageEndpoint, package);
+        _navManager.NavigateTo("/Packages/");
+    } }

@@ -1,0 +1,17 @@
+﻿@page "/Hotels/Create/"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3 class="card-title">Create New Hotels</h3>
+<hr />
+<br />
+
+<FormComponent ButtonText="Create Hotels" hotel="hotel" OnValidSubmit="@CreateHotel" />
+
+@code { Hotels hotel = new Hotels();
+
+    private async Task CreateHotel()
+    {
+        await _client.PostAsJsonAsync(Endpoints.HotelsEndpoint, hotel);
+        _navManager.NavigateTo("/Hotels/");
+    } }

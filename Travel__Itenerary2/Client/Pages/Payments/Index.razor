@@ -25,6 +25,8 @@ else
             <tr>
                 <th>Payment Description</th>
                 <th>Payment Date</th>
+                <th>BookingId</th>
+                <th>StaffId</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -34,6 +36,8 @@ else
                 <tr>
                     <td>@Payments.PayDescription</td>
                     <td>@Payments.PayDate</td>
+
+
                     <td>
                         <a href="/Payments/view/@Payments.Id" class="btn btn-primary">
                             <span class="oi oi-book"></span>
