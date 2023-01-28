@@ -63,6 +63,7 @@
 
     private IList<Bookings> Bookings;
     private IList<Staff> Staffs;
+
     protected async override Task OnInitializedAsync()
     {
         Bookings = await _client.GetFromJsonAsync<List<Bookings>>($"{Endpoints.BookingsEndpoint}");

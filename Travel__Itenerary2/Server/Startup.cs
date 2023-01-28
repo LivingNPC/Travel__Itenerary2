@@ -44,7 +44,7 @@ namespace Travel__Itenerary2.Server
                 .AddIdentityServerJwt();
 
             services.AddControllersWithViews()
-            .AddNewtonsoftJson(op => op.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+                .AddNewtonsoftJson(op => op.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddRazorPages();
 
             services.AddTransient<IUnitOfWork, UnitOfWork>();

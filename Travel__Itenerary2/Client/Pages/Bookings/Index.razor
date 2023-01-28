@@ -13,7 +13,7 @@
 <br />
 <br />
 
-@if (Bookings == null)
+@if (Booking == null)
 {
     <div class="alert alert-info">Loading Bookings...</div>
 }
@@ -36,7 +36,7 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var booking in Bookings)
+            @foreach (var booking in Booking)
             {
             <tr>
                 <td>@booking.Id</td>
@@ -63,19 +63,19 @@ else
 }
 
 @code {
-    private List<Bookings> Bookings;
+    private List<Bookings> Booking;
     private DateTime nullDT = new DateTime(1, 1, 1, 0, 0, 0);
 
     protected async override Task OnInitializedAsync()
     {
 
-        Bookings = await _client.GetFromJsonAsync<List<Bookings>>($"{Endpoints.BookingsEndpoint}");
+        Booking = await _client.GetFromJsonAsync<List<Bookings>>($"{Endpoints.BookingsEndpoint}");
 
     }
 
     async Task Delete(int bookingId)
     {
-        var booking = Bookings.First(q => q.Id == bookingId);
+        var booking = Booking.First(q => q.Id == bookingId);
         var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {booking.Id}?");
         if (confirm)
         {
