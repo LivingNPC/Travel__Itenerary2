@@ -2,6 +2,8 @@
 @inject HttpClient _client
 @inject IJSRuntime js
 @attribute [Authorize]
+@inject HttpInterceptorService _interceptor
+@implements IDisposable
 
 <h3 class="card-title"> Bookings </h3>
 <br />
@@ -26,25 +28,49 @@ else
                 <th>Booking Id</th>
                 <th>NRIC</th>
                 <th>Date</th>
-                <th>Flight Depart Date</th>
-                <th>Flight Return Date</th>
-                <th>Package Start</th>
-                <th>Package End</th>
-                <th>Hotel Check in</th>
-                <th>Hotel Check out</th>
+                <th>Flight</th>
+                <th>Hotel</th>
+                <th>Package</th>
+                <th>Staff</th>
+                <th>FlightPrice</th>
+                <th>HotelPrice</th>
+                <th>PackagePrice</th>
+                <th>Total Price</th>
                 <th>Actions</th>
+
             </tr>
         </thead>
         <tbody>
             @foreach (var booking in Booking)
             {
             <tr>
+
                 <td>@booking.Id</td>
                 <td>@booking.Customers.NRIC</td>
                 <td>@booking.DateTime.Date.ToString("dd MMMM yyyy")</td>
-                <td>@(booking.FlightDepartDate != nullDT ? (booking.FlightDepartDate - booking.FlightReturnDate).TotalDays.ToString() : "To Be Determined")</td>
-                <td>@(booking.PackageStart != nullDT ? (booking.PackageStart - booking.PackageEnd).TotalDays.ToString() : "To Be Determined")</td>
-                <td>@(booking.HotelCheckIn != nullDT ? (booking.HotelCheckIn - booking.HotelCheckOut).TotalDays.ToString() : "To Be Determined")</td>
+                <td>@booking.Flights.FlightName</td>
+                <td>@booking.Hotels.HotelName</td>
+                <td>@booking.Package.PackageName</td>
+                <td>@booking.Staff.Name</td>
+                <td class="price">@booking.Flights.FlightPrice </td>
+                <td class="price">@booking.Hotels.HotelPrice</td>
+                <td class="price">@booking.Package.PackagePrice </td>
+                <td>
+                    <button id="calculate" @onclick=@(()=>CalculatePrice(booking.Id))>Calculate Total<span class="oi oi-calculator"></span></button>
+                    <p id="total">@CalculatePrice(booking.Id).ToString("C")</p>
+                </td>
+                @*<td>
+
+            <button id="calculate-@booking.Id" @onclick=@(() => TotalPrice(booking.Id))>
+                Calculate Total<span class="oi oi-calculator"></span>
+            </button>
+            <p id="total-@booking.Id"></p>
+        </td>*@
+                @*<td><button id="calculate" @onclick=@(()=>TotalPrice(booking.Id))>Calculate Total<span class="oi oi-calculator"></span></button><p id="total"></p></td>*@
+
+
+
+
                 <td>
                     <a href="/bookings/view/@booking.Id" class="btn btn-primary">
                         <span class="oi oi-book"></span>
@@ -60,15 +86,21 @@ else
             }
         </tbody>
     </table>
+    <br />
+    <br />
+    <br />
+
 }
 
 @code {
     private List<Bookings> Booking;
     private DateTime nullDT = new DateTime(1, 1, 1, 0, 0, 0);
+    IJSObjectReference module;
+    string value = string.Empty;
 
     protected async override Task OnInitializedAsync()
     {
-
+        _interceptor.MonitorEvent();
         Booking = await _client.GetFromJsonAsync<List<Bookings>>($"{Endpoints.BookingsEndpoint}");
 
     }
@@ -82,5 +114,25 @@ else
             await _client.DeleteAsync($"{Endpoints.BookingsEndpoint}/{bookingId}");
             await OnInitializedAsync();
         }
+    }
+    public void Dispose()
+    {
+        _interceptor.DisposeEvent();
+    }
+
+   @* async Task TotalPrice(int bookingId)
+    {
+        var booking = Booking.First(q => q.Id == bookingId);
+        module = await js.InvokeAsync<IJSObjectReference>("import", "./Utils.js");
+        value = await module.InvokeAsync<string>("displayTotalPrice", bookingId);
+
+    }*@
+    private decimal CalculatePrice(int bookingId)
+    {
+        var booking = Booking.First(q => q.Id == bookingId);
+        decimal flightPrice = booking.Flights.FlightPrice;
+        decimal hotelPrice = booking.Hotels.HotelPrice;
+        decimal packagePrice = booking.Package.PackagePrice;
+        return flightPrice + hotelPrice + packagePrice;
     }
 }

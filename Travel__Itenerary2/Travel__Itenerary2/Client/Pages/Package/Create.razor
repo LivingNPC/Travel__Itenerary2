@@ -1,0 +1,18 @@
+﻿@page "/Packages/Create/"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3 class="card-title">Create New Package</h3>
+<hr />
+<br />
+
+<FormComponent ButtonText="Create Packages" package="package" OnValidSubmit="@CreatePackage" />
+
+
+@code { Package package = new Package();
+
+    private async Task CreatePackage()
+    {
+        await _client.PostAsJsonAsync(Endpoints.PackageEndpoint, package);
+        _navManager.NavigateTo("/Packages/");
+    } }

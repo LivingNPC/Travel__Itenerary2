@@ -1,0 +1,90 @@
+﻿@page "/Flights/"
+@inject HttpClient _client
+@inject IJSRuntime js
+@attribute [Authorize]
+@inject HttpInterceptorService _interceptor
+@implements IDisposable
+
+
+
+<h3 class="card-title"> Flights </h3>
+<a href="/Flights/Create" class="btn btn-secondary">
+    <span class="oi oi-plus"></span>
+    new flights
+</a>
+<br />
+<br />
+<br />
+
+@if (flights == null)
+{
+    <div class="alert alert-info">Loading Flights...</div>
+}
+
+else
+{
+    <table class="table table-responsive">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Class</th>
+                <th>Description</th>
+                <th>Destination</th>
+                <th>FlightDepartDate</th>
+                <th>FlightReturnDate </th>
+                <th>FlightPrice</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var flights in flights)
+            {
+                <tr>
+                    <td>@flights.FlightName</td>
+                    <td>@flights.FlightClass</td>
+                    <td>@flights.FlightDesc</td>
+                    <td>@flights.FlightDestination</td>
+                    <td>@flights.FlightDepartDate.Date.ToString("dd MMMM yyyy")</td>
+                    <td>@flights.FlightReturnDate.Date.ToString("dd MMMM yyyy")</td>
+                    <td>@flights.FlightPrice</td>
+                    <td>
+                        <a href="/flights/view/@flights.Id" class="btn btn-primary">
+                            <span class="oi oi-book"></span>
+                        </a>
+                        <a href="/flights/edit/@flights.Id" class="btn btn-warning">
+                            <span class="oi oi-pencil"></span>
+                        </a>
+                        <button class="btn btn-danger" @onclick="@(()=>Delete(flights.Id))">
+                            <span class="oi oi-delete"></span>
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@code {
+    private List<Flights> flights;
+
+    protected async override Task OnInitializedAsync()
+    {
+        _interceptor.MonitorEvent();
+        flights = await _client.GetFromJsonAsync<List<Flights>>($"{Endpoints.FlightsEndpoint}");
+
+    }
+
+    async Task Delete(int FlightId)
+    {
+        var flight = flights.First(q => q.Id == FlightId);
+        var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {flight.FlightName}?");
+        if (confirm)
+        {
+            await _client.DeleteAsync($"{Endpoints.FlightsEndpoint}/{FlightId}");
+            await OnInitializedAsync();
+        }
+    }
+    public void Dispose()
+    {
+        _interceptor.DisposeEvent();
+    }
+}

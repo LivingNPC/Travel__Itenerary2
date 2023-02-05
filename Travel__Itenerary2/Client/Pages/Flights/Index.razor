@@ -2,7 +2,81 @@
 @inject HttpClient _client
 @inject IJSRuntime js
 @attribute [Authorize]
+@inject HttpInterceptorService _interceptor
+@implements IDisposable
 
+<style>
+    .card-title {
+        font-weight: bold;
+        font-size: 2rem;
+        text-align: center;
+    }
+
+    .btn-secondary {
+        background-color: #007bff;
+        color: #fff;
+    }
+
+        .btn-secondary:hover {
+            background-color: #0069d9;
+        }
+
+    .oi-plus {
+        font-size: 1.5rem;
+        margin-right: 10px;
+    }
+
+    .alert-info {
+        background-color: #e2e3e5;
+        color: #0c5460;
+        text-align: center;
+    }
+
+    .table {
+        width: 100%;
+        margin-bottom: 1rem;
+        color: #212529;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        color: #fff;
+    }
+
+        .btn-primary:hover {
+            background-color: #0069d9;
+        }
+
+    .oi-book {
+        font-size: 1.5rem;
+    }
+
+    .btn-warning {
+        background-color: #ffc107;
+        color: #212529;
+    }
+
+        .btn-warning:hover {
+            background-color: #e0a800;
+        }
+
+    .oi-pencil {
+        font-size: 1.5rem;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        color: #fff;
+    }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+
+    .oi-delete {
+        font-size: 1.5rem;
+    }
+</style>
 
 <h3 class="card-title"> Flights </h3>
 <a href="/Flights/Create" class="btn btn-secondary">
@@ -27,6 +101,9 @@ else
                 <th>Class</th>
                 <th>Description</th>
                 <th>Destination</th>
+                <th>FlightDepartDate</th>
+                <th>FlightReturnDate </th>
+                <th>FlightPrice</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -38,6 +115,9 @@ else
                     <td>@flights.FlightClass</td>
                     <td>@flights.FlightDesc</td>
                     <td>@flights.FlightDestination</td>
+                    <td>@flights.FlightDepartDate.Date.ToString("dd MMMM yyyy")</td>
+                    <td>@flights.FlightReturnDate.Date.ToString("dd MMMM yyyy")</td>
+                    <td>@flights.FlightPrice</td>
                     <td>
                         <a href="/flights/view/@flights.Id" class="btn btn-primary">
                             <span class="oi oi-book"></span>
@@ -59,7 +139,7 @@ else
 
     protected async override Task OnInitializedAsync()
     {
-
+        _interceptor.MonitorEvent();
         flights = await _client.GetFromJsonAsync<List<Flights>>($"{Endpoints.FlightsEndpoint}");
 
     }
@@ -73,5 +153,9 @@ else
             await _client.DeleteAsync($"{Endpoints.FlightsEndpoint}/{FlightId}");
             await OnInitializedAsync();
         }
+    }
+    public void Dispose()
+    {
+        _interceptor.DisposeEvent();
     }
 }
