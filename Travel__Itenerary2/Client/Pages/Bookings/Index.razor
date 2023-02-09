@@ -56,7 +56,7 @@ else
                 <td class="price">@booking.Hotels.HotelPrice</td>
                 <td class="price">@booking.Package.PackagePrice </td>
                 <td>
-                    <button id="calculate" @onclick=@(()=>CalculatePrice(booking.Id))>Calculate Total<span class="oi oi-calculator"></span></button>
+                   @* <button id="calculate" @onclick=@(()=>CalculatePrice(booking.Id))>Calculate Total<span class="oi oi-calculator"></span></button>*@
                     <p id="total">@CalculatePrice(booking.Id).ToString("C")</p>
                 </td>
                 @*<td>
